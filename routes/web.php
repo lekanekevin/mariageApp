@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\WeddingController;
 use Illuminate\Support\Facades\Route;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+
+Route::get('/wedding/create', [WeddingController::class, 'create'])->name('weddings.create');
+Route::post('/wedding', [WeddingController::class, 'store'])->name('weddings.store');
+Route::get('/wedding', [WeddingController::class, 'index'])->name('weddings.index');
