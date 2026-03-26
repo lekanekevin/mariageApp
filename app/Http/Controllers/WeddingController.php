@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class WeddingController extends Controller
 {
+    // Affiche la liste de tous les mariages
+    public function index()
+    {
+        $weddings = Wedding::all(); 
+        return view('weddings.index', compact('weddings'));
+    }
+
     // Affiche le formulaire de création
     public function create()
     {
@@ -23,22 +30,46 @@ class WeddingController extends Controller
             'date' => 'nullable|date',
             'budget_total' => 'required|numeric|min:0',
             'location' => 'nullable|string|max:255',
+            'max_guests' => 'required|integer|min:1'
         ]);
 
-        // 2. Création du mariage lié à l'utilisateur connecté
-        // Note : Pour l'instant on simule l'ID 1 si tu n'as pas encore d'auth
+        // 2. Création
         $wedding = new Wedding($validated);
-        $wedding->user_id = 1; // On changera ça en Auth::id() plus tard
+        $wedding->user_id = 1; // Simulation d'utilisateur (à changer par Auth::id() plus tard)
         $wedding->save();
-    
 
-        // 3. Redirection avec un message de succès
+        // 3. Redirection
         return redirect()->route('weddings.index')->with('success', 'Mariage créé avec succès !');
-
     }
-    public function index()
+
+    // Affiche le formulaire de modification (Nouvelle méthode)
+    public function edit(Wedding $wedding)
     {
-        $weddings = Wedding::all(); // On récupère tous les mariages
-        return view('weddings.index', compact('weddings'));
+        return view('weddings.edit', compact('wedding'));
+    }
+
+    // Met à jour le mariage (Nouvelle méthode)
+    public function update(Request $request, Wedding $wedding)
+    {
+        // 1. Validation
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'nullable|date',
+            'budget_total' => 'required|numeric|min:0',
+            'location' => 'nullable|string|max:255',
+            'max_guests' => 'required|integer|min:1'
+        ]);
+
+        // 2. Mise à jour
+        $wedding->update($validated);
+
+        return redirect()->route('weddings.index')->with('success', 'Le mariage a été mis à jour !');
+    }
+
+    // Supprime le mariage (Nouvelle méthode)
+    public function destroy(Wedding $wedding)
+    {
+        $wedding->delete();
+        return redirect()->route('weddings.index')->with('success', 'Mariage supprimé avec succès.');
     }
 }

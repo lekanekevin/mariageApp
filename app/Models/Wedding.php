@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wedding extends Model
 {
-    protected $fillable = ['user_id', 'title', 'date', 'budget_total', 'location'];
+    protected $fillable = ['user_id', 'title', 'date', 'budget_total', 'location','max_guests'];
 
     // Un mariage appartient à un utilisateur
     public function user() {
@@ -22,5 +22,9 @@ class Wedding extends Model
     // Un mariage a plusieurs tâches
     public function tasks() {
         return $this->hasMany(Task::class);
+    }
+
+    public function vendors() {
+        return $this->hasMany(Vendor::class);
     }
 }

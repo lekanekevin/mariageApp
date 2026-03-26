@@ -18,7 +18,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-5">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('weddings.index') }}">💍 LK WeddingPlanner</a>
+            <a class="navbar-brand"  href="{{ route('weddings.index') }}">💍 LK WeddingPlanner</a>
         </div>
     </nav>
 

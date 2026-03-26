@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('guests', function (Blueprint $table) {
             $table->id();
+            // CETTE LIGNE EST LA PLUS IMPORTANTE :
+            $table->foreignId('wedding_id')->constrained()->onDelete('cascade'); 
+            
+            $table->string('name');
+            $table->string('email')->nullable();
+            $table->string('status')->default('en attente');
+            $table->integer('table_number')->nullable();
             $table->timestamps();
         });
     }

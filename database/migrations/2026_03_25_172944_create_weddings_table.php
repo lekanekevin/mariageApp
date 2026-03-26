@@ -18,6 +18,7 @@ return new class extends Migration
         $table->date('date')->nullable();
         $table->decimal('budget_total', 10, 2)->default(0);
         $table->string('location')->nullable();
+        $table->integer('max_guests')->default(0);
         $table->timestamps();
         });
     }

@@ -35,6 +35,14 @@
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Nombre d'invités maximum</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-users text-info"></i></span>
+                            <input type="number" name="max_guests" class="form-control" placeholder="Ex: 200" required>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-primary w-100 py-2 mt-3">
                         <i class="fas fa-plus-circle"></i> Créer mon projet
                     </button>
