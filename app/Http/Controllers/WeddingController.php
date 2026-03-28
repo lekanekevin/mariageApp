@@ -12,6 +12,8 @@ class WeddingController extends Controller
     public function index()
     {
         $weddings = Wedding::all(); 
+        $weddings = Auth::user()->weddings;
+      
         return view('weddings.index', compact('weddings'));
     }
 
@@ -35,7 +37,7 @@ class WeddingController extends Controller
 
         // 2. Création
         $wedding = new Wedding($validated);
-        $wedding->user_id = 1; // Simulation d'utilisateur (à changer par Auth::id() plus tard)
+        $wedding->user_id = Auth::id(); // On récupère l'ID de la session
         $wedding->save();
 
         // 3. Redirection

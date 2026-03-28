@@ -19,6 +19,14 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Date du mariage</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-calendar text-gold"></i></span>
+                            <input type="datetime-local" name="date" class="form-control" placeholder="Ex: ..." required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label">Budget prévu (FCFA)</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-money-bill-wave text-success"></i></span>

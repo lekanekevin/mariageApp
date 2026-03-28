@@ -16,11 +16,40 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-5">
-        <div class="container">
-            <a class="navbar-brand"  href="{{ route('weddings.index') }}">💍 LK WeddingPlanner</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ url('/') }}">💍 LK WeddingPlanner</a>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                @guest
+                    {{-- Liens si l'utilisateur n'est PAS connecté --}}
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Connexion</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-light ms-2" href="{{ route('register') }}">S'inscrire</a></li>
+                @else
+                    {{-- Liens si l'utilisateur EST connecté --}}
+                    <li class="nav-item"><a class="nav-link" href="{{ route('weddings.index') }}">Mes Mariages</a></li>
+                    
+                    <li class="nav-item dropdown ms-3">
+                        <a class="nav-link dropdown-toggle text-white fw-bold" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i> {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Déconnexion
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @endguest
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="container">
         @yield('content')

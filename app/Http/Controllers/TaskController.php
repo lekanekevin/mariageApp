@@ -8,37 +8,60 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    // Affiche la liste des tâches d'un mariage
     public function index($weddingId)
     {
-        $wedding = Wedding::with('tasks')->findOrFail($weddingId);
-        return view('tasks.index', compact('wedding'));
+        $wedding = Wedding::findOrFail($weddingId);
+        $tasks = $wedding->tasks()->orderBy('due_date', 'asc')->get();
+        return view('tasks.index', compact('wedding', 'tasks'));
     }
 
-    // C'EST CETTE MÉTHODE QUI MANQUE :
     public function store(Request $request, $weddingId)
     {
-        // Validation
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'due_date' => 'nullable|date',
+            'description' => 'nullable|string'
         ]);
 
-        // Création de la tâche
-        $task = new Task();
-        $task->title = $request->title;
+        $task = new Task($validated);
         $task->wedding_id = $weddingId;
-        $task->is_completed = false;
+        $task->status = 'à faire';
         $task->save();
 
-        return redirect()->back()->with('success', 'Tâche ajoutée avec succès !');
+        return redirect()->back()->with('success', 'Tâche ajoutée !');
     }
 
-    // Pour cocher/décocher une tâche
-    public function toggle(Task $task)
+    public function updateStatus(Request $request, Task $task)
     {
-        $task->is_completed = !$task->is_completed;
-        $task->save();
+        $task->update(['status' => $request->status]);
+        return redirect()->back()->with('success', 'Statut mis à jour.');
+    }
 
-        return redirect()->back();
+    public function destroy(Task $task)
+    {
+        $task->delete();
+        return redirect()->back()->with('success', 'Tâche supprimée.');
+    }
+    // Affiche le formulaire de modification
+    public function edit(Task $task)
+    {
+        $wedding = $task->wedding;
+        return view('tasks.edit', compact('task', 'wedding'));
+    }
+
+    // Enregistre les modifications
+    public function update(Request $request, Task $task)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'due_date' => 'nullable|date',
+            'status' => 'required|in:à faire,en cours,terminé',
+            'description' => 'nullable|string'
+        ]);
+
+        $task->update($validated);
+
+        return redirect()->route('tasks.index', $task->wedding_id)
+                        ->with('success', 'La tâche a été mise à jour.');
     }
 }

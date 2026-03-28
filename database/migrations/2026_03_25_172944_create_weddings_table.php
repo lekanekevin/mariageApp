@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
         $table->string('title');
-        $table->date('date')->nullable();
+        $table->datetime('date')->nullable();
         $table->decimal('budget_total', 10, 2)->default(0);
         $table->string('location')->nullable();
         $table->integer('max_guests')->default(0);

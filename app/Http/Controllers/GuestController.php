@@ -6,6 +6,8 @@ use App\Models\Guest;
 use App\Models\Wedding;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 class GuestController extends Controller
 {
@@ -118,4 +120,21 @@ class GuestController extends Controller
         return redirect()->route('guests.index', $weddingId)
             ->with('success', "L'invité a été retiré de la liste.");
     }
+
+
+    public function exportPdf($weddingId)
+    {
+        $wedding = Wedding::findOrFail($weddingId);
+        $guests = $wedding->guests()->orderBy('name')->get();
+
+        // On charge la vue spécifique pour le PDF
+        $pdf = Pdf::loadView('guests.pdf', compact('wedding', 'guests'));
+        
+        // Str::slug() transforme "Mariage de Jean & Marie" en "mariage-de-jean-marie"
+        $fileName = 'liste-invites-' . Str::slug($wedding->title) . '.pdf';
+
+        return $pdf->stream();
+    }
+
+    
 }

@@ -17,6 +17,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label fw-bold">Date du mariage</label>
+                        <input type="datetime-local" name="date" class="form-control" value="{{ $wedding->date }}" required>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label fw-bold">Budget (FCFA)</label>
                         <input type="number" name="budget_total" class="form-control" value="{{ $wedding->budget_total }}">
                     </div>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1><i class="fas fa-calendar-alt text-primary"></i> Mes Projets</h1>
+        <h1><i class="fas fa-calendar-alt text-primary"></i> Mon Projet de mariage </h1>
         <a href="{{ route('weddings.create') }}" class="btn btn-success shadow-sm">
             <i class="fas fa-plus"></i> Nouveau Mariage
         </a>
@@ -23,6 +23,7 @@
                 <thead class="table-light">
                     <tr>
                         <th>Mariage</th>
+                        <th>Date</th>
                         <th>Lieu</th>
                         <th>Budget</th>
                         <th>Capacité</th>
@@ -34,6 +35,9 @@
                     <tr>
                         <td class="fw-bold text-dark">
                             <i class="fas fa-glass-cheers me-2 text-primary"></i>{{ $wedding->title }}
+                        </td>
+                        <td class="fw-bold text-dark">
+                            <i class="fas fa-calendar me-2 text-primary"></i>{{ $wedding->date }}
                         </td>
                         <td>
                             <i class="fas fa-map-pin me-1 text-muted"></i> 
@@ -51,6 +55,9 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group">
+                                <a href="{{ route('wedding.dashboard', $wedding->id) }}" class="btn btn-sm btn-dark" title="Dashboard">
+                                    <i class="fas fa-chart-line"></i>
+                                </a>
                                 {{-- Bouton Invités --}}
                                 <a href="{{ route('guests.index', $wedding->id) }}" class="btn btn-sm btn-outline-primary" title="Invités">
                                     <i class="fas fa-users"></i>
